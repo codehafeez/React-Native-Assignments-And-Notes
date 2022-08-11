@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+<title>Firebase Realtime Database Web</title>
+<script src="jquery.min.js"></script>
+<script src="firebase.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>-->
+ <script>
+var config = {
+	apiKey: "AIzaSyB0dWJaq-r1Zfh3NmsiL9bTU2uzHueICNI",
+	authDomain: "webex-cb569.firebaseapp.com",
+	databaseURL: "https://webex-cb569-default-rtdb.firebaseio.com",
+	projectId: "webex-cb569",
+	storageBucket: "webex-cb569.appspot.com",
+	messagingSenderId: "613401733335",
+};
+firebase.initializeApp(config);
+</script>
+</head>
+<body>
+	
+	
+<h1>Firebase = Register, Login, Logout, Reset Passowrd</h1>
+<input type="button" value="Register" onclick="registerFunction();" />
+<input type="button" value="Login" onclick="loginFunction();" />
+<input type="button" value="Logout" onclick="logoutFunction();" />
+<input type="button" value="Reset Passowrd" onclick="resetPassowrdFunction();" />
+<input type="button" value="Update Passowrd" onclick="updatePassowrdFunction();" />
+<input type="button" value="Update Email" onclick="updateEmailFunction();" />
+<input type="button" value="Delete Account" onclick="deleteAccountFunction();" />
+
+
+<script>
+function registerFunction(){
+	firebase.auth().createUserWithEmailAndPassword('codehafeez@gmail.com', '123456').then(function(res) {
+	console.log(res.user.uid);
+	alert("Register user uid : "+res.user.uid);
+	}, function(error) { alert(error); });
+}
+
+function loginFunction(){
+	firebase.auth().signInWithEmailAndPassword("codehafeez@gmail.com", "123456").then(function(success) {
+			alert("Successfull Login");
+	}, function(error) { alert(error); });	
+}
+
+function logoutFunction(){
+	firebase.auth().signOut().then(function(success) {
+		alert("Successfull Logout"); }, function(error) { alert(error);
+	});
+}
+
+function resetPassowrdFunction(){
+	// --> Reset Passowrd Link send to Email <--
+	var auth = firebase.auth();
+	var emailAddress = "codehafeez@gmail.com";
+	auth.sendPasswordResetEmail(emailAddress).then(function() {
+		alert("Reset Passowrd Link send to email : "+emailAddress);
+	}).catch(function(error) { alert("Error : "+error); });	
+}
+
+function updatePassowrdFunction(){
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			firebase.auth().currentUser.updatePassword('123123').then(function() {
+			alert("Success Update Password");
+			}).catch(function(err){ alert("Error Update Password : "+err); });
+		} 
+		else { alert("User not Login"); }
+	});
+}
+
+function updateEmailFunction(){	
+    firebase.auth().currentUser.updateEmail('hafeez@gmail.com').then(function() {
+		alert("Successfully Update Email");
+	}).catch(function(err){ alert("Error Update Email : "+err); });			
+}
+
+function deleteAccountFunction(){
+	firebase.auth().currentUser.delete();
+	alert('Successfully Account Delete');
+}
+</script>
+</body>
+</html>

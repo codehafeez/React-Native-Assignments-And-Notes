@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+<title>Firebase Realtime Database Web</title>
+<script src="jquery.min.js"></script>
+<script src="firebase.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/5.5.7/firebase.js"></script>-->
+ <script>
+var config = {
+	apiKey: "AIzaSyB0dWJaq-r1Zfh3NmsiL9bTU2uzHueICNI",
+	authDomain: "webex-cb569.firebaseapp.com",
+	databaseURL: "https://webex-cb569-default-rtdb.firebaseio.com",
+	projectId: "webex-cb569",
+	storageBucket: "webex-cb569.appspot.com",
+	messagingSenderId: "613401733335",
+};
+firebase.initializeApp(config);
+</script>
+</head>
+<body>
+	
+	
+<h1>Firebase = Add, Read Update, Delete</h1>
+<input type="button" value="Add" onclick="addFunction();" />
+<input type="button" value="Read" onclick="readFunction();" />
+<input type="button" value="Update" onclick="updateFunction();" />
+<input type="button" value="Delete" onclick="deleteFunction();" />
+
+
+<script>
+function addFunction(){
+	var user_id = firebase.auth().currentUser.uid;
+	var username = 'Hafeez';
+	var email = 'hafeez@gmail.com';
+	var database = firebase.database();
+	firebase.database().ref('Users/' + user_id).push({
+		user_name: username,
+		user_email: email
+	});
+
+
+	// // This Function Work === IF not added before than add otherwise Update the Node Data
+	// firebase.database().ref('Users/' + user_id).set({
+	// 	user_name: username,
+	// 	user_email: email
+	// });
+
+
+	// // Add Node by Object Value
+	// var user_id = firebase.auth().currentUser.uid;
+	// var user_data = { user_name: "abc", user_email: "abc@gmail.com" };
+	// firebase.database().ref('Users/' + user_id).push(user_data);
+}
+
+function readFunction(){
+	var database = firebase.database();
+	var leadsRef = database.ref('Users');
+	// var leadsRef = database.ref('Users').limitToFirst(1);
+	leadsRef.on('value', function(snapshot) 
+	{
+		snapshot.forEach(function(childSnapshot) 
+		{
+			// console.log(childSnapshot.key);
+			// console.log(childSnapshot.val());
+			// console.log(childSnapshot.numChildren());
+			childSnapshot.forEach(function(childSnapshotValue) {
+				var childData = childSnapshotValue.val();
+				alert(childData.user_name+" = "+childData.user_email);
+			});
+		});
+	});
+
+
+	// // Read Spacific Node
+	// var leadsRef = firebase.database().ref('Users').child("Wnq5xsVGQtcRRqXOv0QIDMA8Be92").child("-LQVJdfEL5zY59dB_2Tv");
+	// leadsRef.once('value').then(function(snapshot) {
+	// 	console.log(snapshot.val());
+	// });
+}
+
+function updateFunction(){
+	firebase.database().ref('Users').child("mXQksUGnZEb5AASwmFPvtLJTaPc2").child("-Mh-KT01MrNS_EL81xUU").update({ 
+		user_name: "new_name", user_email: "new_email@gmail.com"
+	});
+	
+	// // Update Data by Object
+	// var user_data = { user_name: "abc_name" };
+	// firebase.database().ref('Users').child("mXQksUGnZEb5AASwmFPvtLJTaPc2").child("-Mh-KT01MrNS_EL81xUU").update(user_data);	
+}
+
+function deleteFunction(){
+	// Delete Node SubChild
+	firebase.database().ref('Users').child("mXQksUGnZEb5AASwmFPvtLJTaPc2").child("-Mh-KT01MrNS_EL81xUU").remove();
+
+
+	// var user_id = firebase.auth().currentUser.uid;
+	// firebase.database().ref('Users/' + user_id).remove();	
+}
+</script>
+</body>
+</html>

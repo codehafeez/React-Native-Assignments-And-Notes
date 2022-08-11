@@ -1,0 +1,26 @@
+expo init firebase_ex1
+
+cd firebase_ex1
+
+npm install firebase --save
+
+yarn add react-native-gesture-handler
+
+react-native link
+
+
+--------------------------------------------------------------------------------------------------------
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB770xw2fnEoZMACZVWGLNl9O1YZp5LM7Y",
+  authDomain: "test-app-2a4dc.firebaseapp.com",
+  databaseURL: "https://test-app-2a4dc-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "test-app-2a4dc",
+  storageBucket: "test-app-2a4dc.appspot.com",
+  messagingSenderId: "9635526658",
+  appId: "1:9635526658:web:3c72eeb044e97e1d574f1b",
+  measurementId: "G-192R6YPW0V"
+};
+
+--------------------------------------------------------------------------------------------------------
+
